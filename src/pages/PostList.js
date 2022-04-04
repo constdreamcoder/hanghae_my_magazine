@@ -1,9 +1,12 @@
 import React from "react";
 
+// components
+import Post from "../components/Post";
+
 const PostList = (props) => {
   return (
     <React.Fragment>
-      <div>메인페이지입니다.</div>
+      <Post></Post>
     </React.Fragment>
   );
 };
