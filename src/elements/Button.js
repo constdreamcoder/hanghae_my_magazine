@@ -7,9 +7,9 @@ const Button = (props) => {
   const { text, _onClick, children, margin, bg, width } = props;
   const styles = { margin: margin, bg: bg, width: width };
   return (
-    <React.Fragment>
-      <ElBtn {...styles}>{text}</ElBtn>
-    </React.Fragment>
+    <ElButton {...styles} onClick={_onClick}>
+      {text ? text : children}
+    </ElButton>
   );
 };
 
@@ -22,7 +22,7 @@ Button.defaultProps = {
   margin: false,
 };
 
-const ElBtn = styled.button`
+const ElButton = styled.button`
   box-sizing: border-box;
   border: none;
   border-radius: 3px;
