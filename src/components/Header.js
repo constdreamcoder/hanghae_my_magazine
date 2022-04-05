@@ -4,27 +4,23 @@ import React from "react";
 import { Button, Grid, Text, Image } from "../elements";
 
 // packages
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { actionCreators as userActions } from "../redux/modules/user";
+import { history } from "../redux/configureStore";
 
 // Cookie
 import { getCookie, deleteCookie } from "../shared/Cookie";
 
 const Header = (props) => {
-  const history = useHistory();
-  const [is_login, setIsLogin] = React.useState(false);
+  // const history = useHistory();
+  const dispatch = useDispatch();
+  const is_login = useSelector((state) => state.user.is_login);
 
-  React.useEffect(() => {
-    let cookie = getCookie("user_id");
-    console.log(cookie);
-    if (cookie) {
-      setIsLogin(true);
-    } else {
-      setIsLogin(false);
-    }
-  }, []);
+  // const [is_login, setIsLogin] = React.useState(false);
 
-  const isLogin = (is_login) => {
-    return is_login ? deleteCookie("user_id") : "";
+  const isLogIn = (is_login) => {
+    return is_login ? dispatch(userActions.logOut({})) : "";
   };
 
   return (
@@ -40,7 +36,7 @@ const Header = (props) => {
             visibility={is_login ? "visible" : "hidden"}
           >
             <Image shape="circle" />
-            <Text>야추</Text> {/* 유저 이름*/}
+            <Text>아추</Text> {/* 유저 이름*/}
           </Grid>
           <Button
             bg="rgb(27, 156, 252)"
@@ -54,7 +50,7 @@ const Header = (props) => {
             bg="rgb(27, 156, 252)"
             text={is_login ? "로그아웃" : "로그인"}
             _onClick={() => {
-              isLogin(is_login);
+              isLogIn(is_login);
               history.push("/login");
             }}
           ></Button>

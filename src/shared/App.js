@@ -2,6 +2,8 @@ import React from "react";
 
 // packages
 import { BrowserRouter, Route } from "react-router-dom";
+import { ConnectedRouter } from "connected-react-router";
+import { history } from "../redux/configureStore";
 
 // pages
 import Signup from "../pages/Signup";
@@ -18,12 +20,12 @@ function App() {
   return (
     <React.Fragment>
       <Grid margin="0px auto" width="1000px">
-        <BrowserRouter>
+        <ConnectedRouter history={history}>
           <Header></Header>
           <Route path="/" exact component={PostList} />
           <Route path="/login" exact component={Login} />
           <Route path="/signup" exact component={Signup} />
-        </BrowserRouter>
+        </ConnectedRouter>
       </Grid>
     </React.Fragment>
   );

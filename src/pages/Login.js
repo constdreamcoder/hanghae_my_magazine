@@ -1,21 +1,20 @@
 import React from "react";
 
 // shared
-import { getCookie, setCookie, deleteCookie } from "../shared/Cookie";
 
 // elements
 import { Input, Grid, Text, Button } from "../elements";
 
 //packages
-import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { actionCreators as userActions } from "../redux/modules/user";
 
 const Login = (props) => {
-  const history = useHistory();
+  const dispatch = useDispatch();
 
   // console.log(getCookie("user_id"));
   const login = () => {
-    setCookie("user_id", "perl", 3);
-    setCookie("user_pwd", "pppp", 3);
+    dispatch(userActions.loginAction({ user_name: "perl" }));
   };
 
   return (
@@ -37,7 +36,6 @@ const Login = (props) => {
             margin="30px 0px"
             _onClick={() => {
               login();
-              // history.push("/");
             }}
           ></Button>
         </Grid>
