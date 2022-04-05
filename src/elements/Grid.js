@@ -4,7 +4,17 @@ import React from "react";
 import styled from "styled-components";
 
 const Grid = (props) => {
-  const { is_flex, width, padding, margin, center, bg, children } = props;
+  const {
+    is_flex,
+    width,
+    padding,
+    margin,
+    center,
+    bg,
+    children,
+    height,
+    visibility,
+  } = props;
   const styles = {
     is_flex: is_flex,
     width: width,
@@ -12,6 +22,8 @@ const Grid = (props) => {
     margin: margin,
     center: center,
     bg: bg,
+    height: height,
+    visibility: visibility,
   };
   return (
     <React.Fragment>
@@ -28,12 +40,15 @@ Grid.defaultProps = {
   margin: false,
   center: false,
   bg: false,
+  height: "100%",
+  visibility: "visible",
 };
 
 const GridBox = styled.div`
   box-sizing: border-box;
   width: ${(props) => props.width};
-  height: 100%;
+  height: ${(props) => props.height};
+  visibility: ${(props) => props.visibility};
   ${(props) =>
     props.is_flex
       ? `display: flex; align-items: center; justify-content: space-between;`

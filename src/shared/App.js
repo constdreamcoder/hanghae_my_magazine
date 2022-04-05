@@ -17,7 +17,7 @@ import Header from "../components/Header";
 function App() {
   return (
     <React.Fragment>
-      <Grid margin="0px auto" width="1000px" bg="yellow">
+      <Grid margin="0px auto" width="1000px">
         <BrowserRouter>
           <Header></Header>
           <Route path="/" exact component={PostList} />

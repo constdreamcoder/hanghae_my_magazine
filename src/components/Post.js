@@ -23,6 +23,21 @@ const Post = (props) => {
       <Grid>
         <CommentLine></CommentLine>
       </Grid>
+
+      <Grid>
+        <PostHeader></PostHeader>
+      </Grid>
+      <Grid is_flex>
+        <Grid center="center">
+          <Text>리액트 너무 어렵 ㅠㅠ</Text>
+        </Grid>
+        <Grid width="auto" margin="10px 0px">
+          <Image shape="rectangle" />
+        </Grid>
+      </Grid>
+      <Grid>
+        <CommentLine></CommentLine>
+      </Grid>
     </React.Fragment>
   );
 };
