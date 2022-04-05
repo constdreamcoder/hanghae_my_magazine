@@ -5,6 +5,8 @@ import { setCookie, getCookie, deleteCookie } from "../../shared/Cookie";
 
 import { auth } from "../../shared/firebase";
 
+import firebase from "firebase/compat/app";
+
 // Actions
 const LOG_OUT = "LOG_OUT";
 const GET_USER = "GET_USER";
@@ -26,11 +28,34 @@ const user_initial = {
 };
 
 // Middlewares
-const loginAction = (user) => {
+const loginFB = (id, pwd) => {
   return function (dispatch, getState, { history }) {
-    console.log(history);
-    dispatch(setUser(user));
-    history.push("/");
+    auth.setPersistence(firebase.auth.Auth.Persistence.SESSION).then((res) => {
+      auth
+        .signInWithEmailAndPassword(id, pwd)
+        .then((userCredential) => {
+          var user = userCredential.user;
+          console.log(user);
+
+          const user_name = user.multiFactor.user.displayName;
+          const uid = user.multiFactor.user.uid;
+          dispatch(
+            setUser({
+              user_name: user_name,
+              id: id,
+              user_profile: "",
+              uid: uid,
+            })
+          );
+          history.push("/");
+        })
+        .catch((error) => {
+          var errorCode = error.code;
+          var errorMessage = error.message;
+
+          console.log(errorCode, errorMessage);
+        });
+    });
   };
 };
 
@@ -43,11 +68,17 @@ const signupFB = (id, pwd, user_name) => {
         let user = userCredential.user;
         console.log(user);
 
+        const uid = user.multiFactor.user.uid;
         auth.currentUser
           .updateProfile({ displayName: user_name })
           .then(() => {
             dispatch(
-              setUser({ user_name: user_name, id: id, user_profile: "" })
+              setUser({
+                user_name: user_name,
+                id: id,
+                user_profile: "",
+                uid: uid,
+              })
             );
             history.push("/");
           })
@@ -61,6 +92,38 @@ const signupFB = (id, pwd, user_name) => {
 
         console.log(errorCode, errorMessage);
       });
+  };
+};
+
+const loginCheckFB = () => {
+  return function (dispatch, getState, { history }) {
+    // 현재 로그인 한 사용자 정보 가져오기
+    auth.onAuthStateChanged((user) => {
+      const user_name = user.multiFactor.user.displayName;
+      const id = user.multiFactor.user.email;
+      const uid = user.multiFactor.user.uid;
+      if (user) {
+        dispatch(
+          setUser({
+            user_name: user_name,
+            user_profile: "",
+            id: id,
+            uid: uid,
+          })
+        );
+      } else {
+        dispatch(logOut());
+      }
+    });
+  };
+};
+
+const logoutFB = () => {
+  return function (dispatch, getState, { history }) {
+    auth.signOut().then(() => {
+      dispatch(logOut());
+      history.replace("/");
+    });
   };
 };
 // Reducer
@@ -87,8 +150,10 @@ export default handleActions(
 const actionCreators = {
   logOut,
   getUser,
-  loginAction,
   signupFB,
+  loginFB,
+  loginCheckFB,
+  logoutFB,
 };
 
 export { actionCreators };

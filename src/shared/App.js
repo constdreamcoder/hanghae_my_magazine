@@ -1,9 +1,13 @@
 import React from "react";
 
 // packages
-import { BrowserRouter, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
 import { history } from "../redux/configureStore";
+
+import { actionCreators as userActions } from "../redux/modules/user";
+import { useDispatch } from "react-redux";
+import { apiKey } from "./firebase";
 
 // pages
 import Signup from "../pages/Signup";
@@ -17,6 +21,16 @@ import { Grid } from "../elements";
 import Header from "../components/Header";
 
 function App() {
+  const dispatch = useDispatch();
+
+  const _session_key = `firebase:authUser:${apiKey}:[DEFAULT]`;
+  const is_session = sessionStorage.getItem(_session_key) ? true : false;
+
+  React.useEffect(() => {
+    if (is_session) {
+      dispatch(userActions.loginCheckFB(apiKey));
+    }
+  }, []);
   return (
     <React.Fragment>
       <Grid margin="0px auto" width="1000px">

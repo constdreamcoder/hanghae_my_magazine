@@ -11,16 +11,19 @@ import { history } from "../redux/configureStore";
 
 // Cookie
 import { getCookie, deleteCookie } from "../shared/Cookie";
+import { apiKey } from "../shared/firebase";
 
 const Header = (props) => {
-  // const history = useHistory();
   const dispatch = useDispatch();
   const is_login = useSelector((state) => state.user.is_login);
 
-  // const [is_login, setIsLogin] = React.useState(false);
+  const _session_key = `firebase:authUser:${apiKey}:[DEFAULT]`;
+  const is_session = sessionStorage.getItem(_session_key) ? true : false;
 
-  const isLogOut = (is_login) => {
-    return is_login ? dispatch(userActions.logOut({})) : "";
+  const isLogOut = (is_login, is_session) => {
+    return is_login && is_session
+      ? dispatch(userActions.logoutFB())
+      : history.push("/login");
   };
 
   return (
@@ -33,14 +36,14 @@ const Header = (props) => {
           <Grid
             is_flex
             width="31.25rem"
-            visibility={is_login ? "visible" : "hidden"}
+            visibility={is_login && is_session ? "visible" : "hidden"}
           >
             <Image shape="circle" />
             <Text>아추</Text> {/* 유저 이름*/}
           </Grid>
           <Button
             bg="rgb(27, 156, 252)"
-            text={is_login ? "벨" : "회원가입"}
+            text={is_login && is_session ? "벨" : "회원가입"}
             margin="0px 10px 0px 0px"
             _onClick={() => {
               history.push("/signup");
@@ -48,10 +51,9 @@ const Header = (props) => {
           ></Button>
           <Button
             bg="rgb(27, 156, 252)"
-            text={is_login ? "로그아웃" : "로그인"}
-            _onClick={(event) => {
-              isLogOut(is_login);
-              // history.push("/login");
+            text={is_login && is_session ? "로그아웃" : "로그인"}
+            _onClick={() => {
+              isLogOut(is_login, is_session);
             }}
           ></Button>
         </Grid>

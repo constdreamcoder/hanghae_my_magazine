@@ -12,9 +12,15 @@ import { actionCreators as userActions } from "../redux/modules/user";
 const Login = (props) => {
   const dispatch = useDispatch();
 
-  // console.log(getCookie("user_id"));
+  const [id, setId] = React.useState("");
+  const [pwd, setPwd] = React.useState("");
+
   const login = () => {
-    dispatch(userActions.loginAction({ user_name: "perl" }));
+    if (id === "" || pwd === "") {
+      window.alert("아이디 혹은 비밀번호가 공란입니다! 입력해주세요!");
+      return;
+    }
+    dispatch(userActions.loginFB(id, pwd));
   };
 
   return (
@@ -24,10 +30,21 @@ const Login = (props) => {
           <h1>로그인</h1>
         </Grid>
         <Grid>
-          <Input label="아이디" placeholder="아이디" />
+          <Input
+            label="아이디"
+            placeholder="아이디"
+            _onChange={(e) => {
+              setId(e.target.value);
+            }}
+          />
         </Grid>
         <Grid>
-          <Input label="비밀번호" placeholder="비밀번호" />
+          <Input
+            label="비밀번호"
+            placeholder="비밀번호"
+            type="password"
+            _onChange={(e) => setPwd(e.target.value)}
+          />
         </Grid>
         <Grid>
           <Button
