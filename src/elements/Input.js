@@ -16,6 +16,7 @@ const Input = (props) => {
         <Elinput
           type={type}
           placeholder={placeholder + "를 입력해주세용!"}
+          onChange={_onChange}
         ></Elinput>
       </Grid>
     </React.Fragment>

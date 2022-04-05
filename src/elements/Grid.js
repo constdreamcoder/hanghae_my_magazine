@@ -15,6 +15,7 @@ const Grid = (props) => {
     height,
     visibility,
   } = props;
+
   const styles = {
     is_flex: is_flex,
     width: width,

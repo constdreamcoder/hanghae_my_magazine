@@ -19,7 +19,7 @@ const Header = (props) => {
 
   // const [is_login, setIsLogin] = React.useState(false);
 
-  const isLogIn = (is_login) => {
+  const isLogOut = (is_login) => {
     return is_login ? dispatch(userActions.logOut({})) : "";
   };
 
@@ -49,9 +49,9 @@ const Header = (props) => {
           <Button
             bg="rgb(27, 156, 252)"
             text={is_login ? "로그아웃" : "로그인"}
-            _onClick={() => {
-              isLogIn(is_login);
-              history.push("/login");
+            _onClick={(event) => {
+              isLogOut(is_login);
+              // history.push("/login");
             }}
           ></Button>
         </Grid>
