@@ -11,10 +11,6 @@ const Post = (props) => {
     user_info: { ...props.user_info },
     insert_dt: props.insert_dt,
   };
-  // console.log(user);
-
-  const commet_info = {};
-  console.log(props);
 
   return (
     <React.Fragment>
