@@ -10,6 +10,11 @@ const Upload = () => {
   const [file, setFile] = React.useState("");
 
   const selectFile = (e) => {
+    if (!e.target || e.target.files.length === 0) {
+      window.alert("파일을 선택해주세요!");
+      return;
+    }
+
     setFile(e.target.files[0].name);
 
     // 업로드된 파일을 읽어오는 객체 생성

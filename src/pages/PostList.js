@@ -14,7 +14,9 @@ const PostList = (props) => {
   console.log(post_list);
 
   React.useEffect(() => {
-    dispatch(postActions.getPostFB());
+    if (post_list.length === 0) {
+      dispatch(postActions.getPostFB());
+    }
   }, []);
   return (
     <React.Fragment>

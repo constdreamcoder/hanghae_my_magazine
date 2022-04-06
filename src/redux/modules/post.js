@@ -1,6 +1,7 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import { firestore } from "../../shared/firebase";
+import moment from "moment";
 
 // Actions
 const SET_POST = "SET_POST";
@@ -16,20 +17,51 @@ const initialState = {
 };
 
 const initialPost = {
-  id: 0,
-  user_info: {
-    user_name: "mean0",
-    user_profile:
-      "https://d5nunyagcicgy.cloudfront.net/external_assets/hero_examples/hair_beach_v391182663/original.jpeg",
-  },
+  // id: 0,
+  // user_info: {
+  //   user_name: "mean0",
+  //   user_profile:
+  //     "https://d5nunyagcicgy.cloudfront.net/external_assets/hero_examples/hair_beach_v391182663/original.jpeg",
+  // },
   image_url:
     "https://d5nunyagcicgy.cloudfront.net/external_assets/hero_examples/hair_beach_v391182663/original.jpeg",
   contents: "고양이네요!",
-  comment_cnt: 10,
-  insert_dt: "2021-02-27 10:00:00",
+  comment_cnt: 0,
+  insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
 };
 
 // Middelewares
+const addPostFB = (contents = "") => {
+  return function (dispatch, getState, { history }) {
+    const _user = getState().user.user; // 리덕스에서 데이터를 가져온다.
+    const postDB = firestore.collection("post"); // 파이어스토어에서 데이터르 가져온다.
+
+    const user_info = {
+      user_name: _user.user_name,
+      user_id: _user.uid,
+      user_profile: _user.user_profile,
+    };
+
+    const _post = {
+      ...initialPost,
+      contents: contents,
+      insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
+    };
+
+    // 파이어스토어 추가
+    postDB
+      .add({ ...user_info, ..._post })
+      .then((doc) => {
+        let post = { user_info, ..._post, id: doc.id };
+        dispatch(addPost(post));
+        history.replace("/");
+      })
+      .catch((err) => {
+        console.log("post 작성에 실패했어요!", err);
+      });
+  };
+};
+
 const getPostFB = () => {
   return function (dispatch, getState, { history }) {
     // Firestore에서 데이터 가져오기
@@ -73,7 +105,10 @@ export default handleActions(
       produce(state, (draft) => {
         draft.list = action.payload.post_list;
       }),
-    [ADD_POST]: (state, action) => produce(state, (draft) => {}),
+    [ADD_POST]: (state, action) =>
+      produce(state, (draft) => {
+        draft.list.unshift(action.payload.post);
+      }),
   },
   initialState
 );
@@ -82,6 +117,7 @@ const actionCreator = {
   setPost,
   addPost,
   getPostFB,
+  addPostFB,
 };
 
 export { actionCreator };

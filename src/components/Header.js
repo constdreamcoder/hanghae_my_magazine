@@ -4,10 +4,10 @@ import React from "react";
 import { Button, Grid, Text, Image } from "../elements";
 
 // packages
+import { history } from "../redux/configureStore";
 // import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
-import { history } from "../redux/configureStore";
 
 // Cookie
 import { apiKey } from "../shared/firebase";
