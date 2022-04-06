@@ -1,11 +1,21 @@
 import React from "react";
 
 // style
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 const Button = (props) => {
-  const { text, _onClick, children, margin, bg, width } = props;
+  const { text, _onClick, children, margin, bg, width, is_float } = props;
+
+  if (is_float) {
+    return (
+      <React.Fragment>
+        <FloatButton onClick={_onClick}>{text ? text : children}</FloatButton>
+      </React.Fragment>
+    );
+  }
+
   const styles = { margin: margin, bg: bg, width: width };
+
   return (
     <ElButton {...styles} onClick={_onClick}>
       {text ? text : children}
@@ -20,6 +30,7 @@ Button.defaultProps = {
   bg: false,
   _onClick: () => {},
   margin: false,
+  is_float: false,
 };
 
 const ElButton = styled.button`
@@ -32,6 +43,39 @@ const ElButton = styled.button`
   ${(props) => (props.bg ? `background-color: ${props.bg}` : "")};
   height: 40px;
   ${(props) => (props.margin ? `margin: ${props.margin}` : "")};
+`;
+
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+const FloatButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 36px;
+  position: fixed;
+  bottom: 30px;
+  right: 60px;
+  border: none;
+  text-decoration: none;
+  color: white;
+  background-color: #212121;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 300ms ease-in-out;
+  &:hover {
+    animation: ${rotate} 2s linear infinite;
+  }
 `;
 
 export default Button;

@@ -10,7 +10,6 @@ import { actionCreators as userActions } from "../redux/modules/user";
 import { history } from "../redux/configureStore";
 
 // Cookie
-import { getCookie, deleteCookie } from "../shared/Cookie";
 import { apiKey } from "../shared/firebase";
 
 const Header = (props) => {
@@ -21,6 +20,7 @@ const Header = (props) => {
   const is_session = sessionStorage.getItem(_session_key) ? true : false;
 
   const isLogOut = (is_login, is_session) => {
+    console.log(is_login, is_session);
     return is_login && is_session
       ? dispatch(userActions.logoutFB())
       : history.push("/login");

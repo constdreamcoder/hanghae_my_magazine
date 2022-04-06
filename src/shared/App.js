@@ -15,7 +15,10 @@ import Login from "../pages/Login";
 import PostList from "../pages/PostList";
 
 // elements
-import { Grid } from "../elements";
+import { Grid, Button } from "../elements";
+
+// shared
+import Permit from "./Permit";
 
 // components
 import Header from "../components/Header";
@@ -31,6 +34,7 @@ function App() {
       dispatch(userActions.loginCheckFB(apiKey));
     }
   }, []);
+
   return (
     <React.Fragment>
       <Grid margin="0px auto" width="1000px">
@@ -41,6 +45,9 @@ function App() {
           <Route path="/signup" exact component={Signup} />
         </ConnectedRouter>
       </Grid>
+      <Permit>
+        <Button is_float text="+"></Button>
+      </Permit>
     </React.Fragment>
   );
 }
