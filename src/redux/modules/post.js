@@ -1,7 +1,9 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
-import { firestore } from "../../shared/firebase";
+import { firestore, storage } from "../../shared/firebase";
 import moment from "moment";
+
+import { actionCreator as imageActions } from "./image";
 
 // Actions
 const SET_POST = "SET_POST";
@@ -28,13 +30,14 @@ const initialPost = {
   contents: "고양이네요!",
   comment_cnt: 0,
   insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
+  layout: "",
 };
 
 // Middelewares
-const addPostFB = (contents = "") => {
+const addPostFB = (contents = "", layout) => {
   return function (dispatch, getState, { history }) {
     const _user = getState().user.user; // 리덕스에서 데이터를 가져온다.
-    const postDB = firestore.collection("post"); // 파이어스토어에서 데이터르 가져온다.
+    const postDB = firestore.collection("post"); // 파이어스토어에서 저장할 컬렉션 정보를 가져온다.
 
     const user_info = {
       user_name: _user.user_name,
@@ -46,19 +49,43 @@ const addPostFB = (contents = "") => {
       ...initialPost,
       contents: contents,
       insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
+      layout: layout,
     };
 
-    // 파이어스토어 추가
-    postDB
-      .add({ ...user_info, ..._post })
-      .then((doc) => {
-        let post = { user_info, ..._post, id: doc.id };
-        dispatch(addPost(post));
-        history.replace("/");
-      })
-      .catch((err) => {
-        console.log("post 작성에 실패했어요!", err);
-      });
+    const _image = getState().image.preview;
+
+    const _upload = storage
+      .ref(`images/${user_info.user_id}_${new Date().getTime()}`)
+      .putString(_image, "data_url");
+
+    _upload.then((snapshot) => {
+      snapshot.ref
+        .getDownloadURL()
+        .then((url) => {
+          return url;
+        })
+        .then((url) => {
+          // 파이어스토어 추가
+          postDB
+            .add({ ...user_info, ..._post, image_url: url })
+            .then((doc) => {
+              let post = { user_info, ..._post, id: doc.id, image_url: url };
+              dispatch(addPost(post));
+              history.replace("/");
+
+              // 다시 게시글 작성 페이지에 갔을 때 preview가 보이지 않도록 설정
+              dispatch(imageActions.setPreview(null));
+            })
+            .catch((err) => {
+              window.alert("앗! 포스트 작성에 문제가 있어요!");
+              console.log("post 작성에 실패했어요!", err);
+            });
+        })
+        .catch((err) => {
+          window.alert("앗! 이미지 업로드에 문제가 있어요!");
+          console.log("앗! 이미지 업로드에 문제가 있어요!", err);
+        });
+    });
   };
 };
 
@@ -107,7 +134,8 @@ export default handleActions(
       }),
     [ADD_POST]: (state, action) =>
       produce(state, (draft) => {
-        draft.list.unshift(action.payload.post);
+        console.log(action.payload.post);
+        // draft.list.unshift(action.payload.post);
       }),
   },
   initialState

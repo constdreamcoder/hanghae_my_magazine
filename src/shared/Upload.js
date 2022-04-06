@@ -13,6 +13,7 @@ import { actionCreator as imageActions } from "../redux/modules/image";
 
 const Upload = () => {
   const dispatch = useDispatch();
+  // const is_uploading = useSelector((state) => state.image.uploading);
   const [file, setFile] = React.useState("");
   const fileInput = React.useRef();
 
@@ -28,8 +29,13 @@ const Upload = () => {
     const reader = new FileReader();
     const selectdFile = fileInput.current.files[0];
 
+    console.log(selectdFile);
+
+    // dispatch(imageActions.imageStoreTemp(selectdFile));
     // 업로드된 파일 내용을 읽어오기
     reader.readAsDataURL(selectdFile);
+
+    console.log(reader);
 
     // 파일 읽기가 끝난 후 발생하는 이벤드 핸들러
     reader.onloadend = () => {
@@ -52,6 +58,7 @@ const Upload = () => {
           type="file"
           id="file"
           ref={fileInput}
+          // disabled={is_uploading}
         />
       </Grid>
     </React.Fragment>
