@@ -72,14 +72,14 @@ const PostHeader = (props) => {
       <Grid is_flex padding="16px">
         <Grid is_flex width="auto">
           <Grid>
-            <Image shape="circle" />
+            <Image url={props.user_info.user_profile} shape="circle" />
           </Grid>
           <Grid margin="0px 0px 0px 1em">
-            <Text bold>test99</Text>
+            <Text bold>{props.user_info.user_name}</Text>
           </Grid>
         </Grid>
         <Grid center="center">
-          <Text>2022-04-04 12:00:00</Text>
+          <Text>{props.insert_dt}</Text>
         </Grid>
       </Grid>
     </React.Fragment>
