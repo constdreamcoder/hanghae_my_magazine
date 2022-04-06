@@ -6,24 +6,38 @@ import { Grid } from "../elements";
 // styles
 import styled from "styled-components";
 
+// packages
+import { storage } from "./firebase";
+import { useSelector, useDispatch } from "react-redux";
+import { actionCreator as imageActions } from "../redux/modules/image";
+
 const Upload = () => {
+  const dispatch = useDispatch();
   const [file, setFile] = React.useState("");
+  const fileInput = React.useRef();
 
   const selectFile = (e) => {
-    if (!e.target || e.target.files.length === 0) {
+    if (!fileInput.current || fileInput.current.files.length === 0) {
       window.alert("파일을 선택해주세요!");
       return;
     }
 
-    setFile(e.target.files[0].name);
+    setFile(fileInput.current.files[0].name);
 
     // 업로드된 파일을 읽어오는 객체 생성
-    // const reader = new FileReader();
-    // const selectedFile = e.target.files[0];
+    const reader = new FileReader();
+    const selectdFile = fileInput.current.files[0];
 
     // 업로드된 파일 내용을 읽어오기
-    //  reader.readAsDataURL(file);
+    reader.readAsDataURL(selectdFile);
+
+    // 파일 읽기가 끝난 후 발생하는 이벤드 핸들러
+    reader.onloadend = () => {
+      console.log(reader.result);
+      dispatch(imageActions.setPreview(reader.result));
+    };
   };
+
   return (
     <React.Fragment>
       <Grid is_flex>
@@ -33,7 +47,12 @@ const Upload = () => {
           onChange={() => {}}
         />
         <AttachmentLabel htmlFor="file">파일찾기</AttachmentLabel>
-        <AttachmentInput onChange={selectFile} type="file" id="file" />
+        <AttachmentInput
+          onChange={selectFile}
+          type="file"
+          id="file"
+          ref={fileInput}
+        />
       </Grid>
     </React.Fragment>
   );

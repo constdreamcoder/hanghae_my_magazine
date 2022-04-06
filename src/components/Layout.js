@@ -11,7 +11,14 @@ const Layout = (props) => {
             <Text></Text>
           </Grid>
           <Grid width="auto" margin="10px 0px">
-            <Image shape="rectangle" />
+            <Image
+              url={
+                props.preview
+                  ? props.preview
+                  : "https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg"
+              }
+              shape="rectangle"
+            />
           </Grid>
         </Grid>
       </React.Fragment>
@@ -23,7 +30,14 @@ const Layout = (props) => {
       <React.Fragment>
         <Grid is_flex>
           <Grid width="auto" margin="10px 0px">
-            <Image shape="rectangle" />
+            <Image
+              url={
+                props.preview
+                  ? props.preview
+                  : "https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg"
+              }
+              shape="rectangle"
+            />
           </Grid>
           <Grid center="center">
             <Text></Text>
@@ -38,7 +52,14 @@ const Layout = (props) => {
       <React.Fragment>
         <Text></Text>
         <Grid margin="10px 0px">
-          <Image shape="wide-rectangle" />
+          <Image
+            url={
+              props.preview
+                ? props.preview
+                : "https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg"
+            }
+            shape="wide-rectangle"
+          />
         </Grid>
       </React.Fragment>
     );

@@ -17,6 +17,7 @@ const PostWrite = (props) => {
   const dispatch = useDispatch();
   // 이미 App.js에서 session 여부끼지 체크를 했기 때문에 로그인 여부만 체크
   const is_login = useSelector((state) => state.user.is_login);
+  const preview = useSelector((state) => state.image.preview);
 
   const { history } = props;
 
@@ -62,19 +63,19 @@ const PostWrite = (props) => {
       <Grid padding="16px">
         <Radio text="오른쪽에 이미지 왼쪽에 텍스트" id="right" value="right" />
       </Grid>
-      <Layout layout="right"></Layout>
+      <Layout preview={preview} layout="right"></Layout>
 
       {/* 왼쪽 정렬 */}
       <Grid padding="16px">
         <Radio text="왼쪽에 이미지 오른쪽에 텍스트" id="left" value="left" />
       </Grid>
-      <Layout layout="left"></Layout>
+      <Layout preview={preview} layout="left"></Layout>
 
       {/* 가운데 정렬 */}
       <Grid padding="16px">
         <Radio text="하단에 이미지 상단에 텍스트" id="bottom" value="bottom" />
       </Grid>
-      <Layout layout="bottom"></Layout>
+      <Layout preview={preview} layout="bottom"></Layout>
 
       {/* 게시글 작성 */}
       <Grid padding="16px">
