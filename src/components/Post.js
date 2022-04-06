@@ -47,18 +47,4 @@ const Post = (props) => {
   );
 };
 
-const initialPost = {
-  id: 0,
-  user_info: {
-    user_name: "mean0",
-    user_profile:
-      "https://d5nunyagcicgy.cloudfront.net/external_assets/hero_examples/hair_beach_v391182663/original.jpeg",
-  },
-  image_url:
-    "https://d5nunyagcicgy.cloudfront.net/external_assets/hero_examples/hair_beach_v391182663/original.jpeg",
-  contents: "고양이네요!",
-  comment_cnt: 10,
-  insert_dt: "2021-02-27 10:00:00",
-};
-
 export default Post;

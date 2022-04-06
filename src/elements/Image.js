@@ -22,6 +22,15 @@ const Image = (props) => {
       </ImageRectangleOutter>
     );
   }
+
+  if (shape === "wide-rectangle") {
+    return (
+      <ImageWideRectangleOutter>
+        <ImageWideRectangleInner {...styles}></ImageWideRectangleInner>
+      </ImageWideRectangleOutter>
+    );
+  }
+
   return <React.Fragment></React.Fragment>;
 };
 
@@ -31,9 +40,21 @@ Image.defaultProps = {
   size: 40,
 };
 
+const ImageWideRectangleOutter = styled.div`
+  width: 62.5rem;
+  height: 62.5rem;
+`;
+
+const ImageWideRectangleInner = styled.div`
+  width: 100%;
+  height: 100%;
+  background-image: url("${(props) => props.url}");
+  background-size: cover;
+`;
+
 const ImageRectangleOutter = styled.div`
-  width: 20em;
-  height: 18.75em;
+  width: 20rem;
+  height: 18.75rem;
 `;
 
 const ImageRectangleInner = styled.div`

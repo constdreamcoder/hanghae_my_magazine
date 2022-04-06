@@ -13,6 +13,7 @@ import { apiKey } from "./firebase";
 import Signup from "../pages/Signup";
 import Login from "../pages/Login";
 import PostList from "../pages/PostList";
+import PostWrite from "../pages/PostWrite";
 
 // elements
 import { Grid, Button } from "../elements";
@@ -43,10 +44,15 @@ function App() {
           <Route path="/" exact component={PostList} />
           <Route path="/login" exact component={Login} />
           <Route path="/signup" exact component={Signup} />
+          <Route path="/write" exact component={PostWrite} />
         </ConnectedRouter>
       </Grid>
       <Permit>
-        <Button is_float text="+"></Button>
+        <Button
+          is_float
+          text="+"
+          _onClick={() => history.push("/write")}
+        ></Button>
       </Permit>
     </React.Fragment>
   );
