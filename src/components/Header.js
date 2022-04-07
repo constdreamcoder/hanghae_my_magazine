@@ -15,6 +15,8 @@ import { apiKey } from "../shared/firebase";
 const Header = (props) => {
   const dispatch = useDispatch();
   const is_login = useSelector((state) => state.user.is_login);
+  const user_info = useSelector((state) => state.user.user);
+  console.log(user_info);
 
   const _session_key = `firebase:authUser:${apiKey}:[DEFAULT]`;
   const is_session = sessionStorage.getItem(_session_key) ? true : false;
@@ -26,7 +28,6 @@ const Header = (props) => {
       : history.push("/login");
   };
 
-  // console.log(props.user_info.user_name);
   return (
     <React.Fragment>
       <Grid is_flex padding="16px">
@@ -39,8 +40,12 @@ const Header = (props) => {
             width="31.25rem"
             visibility={is_login && is_session ? "visible" : "hidden"}
           >
-            <Image shape="circle" />
-            <Text>라면</Text> {/* 유저 이름*/}
+            <Image
+              url={is_login && is_session ? user_info.user_profile : ""}
+              shape="circle"
+            />
+            <Text>{is_login && is_session ? user_info.user_name : ""}</Text>{" "}
+            {/* 유저 이름*/}
           </Grid>
           <Button
             bg="rgb(27, 156, 252)"
@@ -68,7 +73,7 @@ Header.defaultProps = {};
 export default Header;
 
 const PostHeader = (props) => {
-  console.log(props.user_info.user_profile);
+  // console.log(props.user_info.user_profile);
   return (
     <React.Fragment>
       <Grid is_flex padding="16px">
