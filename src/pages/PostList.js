@@ -17,6 +17,7 @@ const PostList = (props) => {
   const { history } = props;
   const dispatch = useDispatch();
   const post_list = useSelector((state) => state.post.list);
+  const user_info = useSelector((state) => state.user.user);
 
   console.log(post_list);
 
@@ -28,7 +29,11 @@ const PostList = (props) => {
   return (
     <React.Fragment>
       {post_list.map((p, idx) => {
-        return <Post key={p.id} {...p} />;
+        if (p.user_info.user_id === user_info?.uid) {
+          return <Post key={p.id} {...p} is_me={true} />;
+        } else {
+          return <Post key={p.id} {...p} is_me={false} />;
+        }
       })}
       <Permit>
         <Button

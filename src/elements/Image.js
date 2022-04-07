@@ -31,7 +31,11 @@ const Image = (props) => {
     );
   }
 
-  return <React.Fragment></React.Fragment>;
+  return (
+    <React.Fragment>
+      <ImageDefault {...styles}></ImageDefault>
+    </React.Fragment>
+  );
 };
 
 Image.defaultProps = {
@@ -39,6 +43,14 @@ Image.defaultProps = {
   url: "https://mblogthumb-phinf.pstatic.net/20160412_67/tjans1656_1460436634883DEBhn_PNG/2016-04-12_13%3B45%3B31.PNG?type=w2",
   size: 40,
 };
+
+const ImageDefault = styled.div`
+  --size: ${(props) => props.size}px;
+  width: var(--size);
+  height: var(--size);
+  background-image: url("${(props) => props.url}");
+  background-size: cover;
+`;
 
 const ImageWideRectangleOutter = styled.div`
   width: 62.5rem;

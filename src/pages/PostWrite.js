@@ -15,19 +15,37 @@ import Layout from "../components/Layout";
 // packages
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreator as postActions } from "../redux/modules/post";
-// import { actionCreator as imageActions } from "../redux/modules/image";
+import { actionCreator as imageActions } from "../redux/modules/image";
 
 const PostWrite = (props) => {
   const dispatch = useDispatch();
   // 이미 App.js에서 session 여부끼지 체크를 했기 때문에 로그인 여부만 체크
   const is_login = useSelector((state) => state.user.is_login);
   const preview = useSelector((state) => state.image.preview);
-  // const selectedFile = useSelector((state) => state.image.selectedFile);
+  const post_list = useSelector((state) => state.post.list);
+
+  const post_id = props.match.params.id;
+  const is_edit = post_id ? true : false;
 
   const { history } = props;
 
-  const [contents, setContents] = React.useState("");
+  let _post = is_edit ? post_list.find((p) => p.id === post_id) : null;
+
+  const [contents, setContents] = React.useState(_post ? _post.contents : "");
   const [layout, setLayout] = React.useState("");
+
+  React.useEffect(() => {
+    if (is_edit && !_post) {
+      window.alert("포스트 정보가 없어요!");
+      history.goBack();
+
+      return;
+    }
+
+    if (is_edit) {
+      dispatch(imageActions.setPreview(_post.image_url));
+    }
+  }, []);
 
   const changeContents = (e) => {
     setContents(e.target.value);
@@ -40,6 +58,10 @@ const PostWrite = (props) => {
 
   const addPost = () => {
     dispatch(postActions.addPostFB(contents, layout));
+  };
+
+  const editPost = () => {
+    dispatch(postActions.editPostFB(post_id, { contents: contents }));
   };
 
   if (!is_login) {
@@ -63,7 +85,7 @@ const PostWrite = (props) => {
 
   return (
     <React.Fragment>
-      <h1>게시글 작성</h1>
+      <h1>{is_edit ? "게시글 수정" : "게시글 작성"}</h1>
       <Grid>
         <Upload />
       </Grid>
@@ -121,16 +143,25 @@ const PostWrite = (props) => {
       {/* 게시글 작성 */}
       <Grid padding="16px">
         <Input
+          value={contents}
           multiLine
           label="게시글 내용"
           placeholder="게시글 내용"
           _onChange={changeContents}
         />
-        <Button
-          text="게시글 작성"
-          bg="rgba(27, 156, 252, 0.55)"
-          _onClick={addPost}
-        ></Button>
+        {is_edit ? (
+          <Button
+            text="게시글 수정"
+            bg="rgba(27, 156, 252, 0.55)"
+            _onClick={editPost}
+          ></Button>
+        ) : (
+          <Button
+            text="게시글 수정"
+            bg="rgba(27, 156, 252, 0.55)"
+            _onClick={addPost}
+          ></Button>
+        )}
       </Grid>
     </React.Fragment>
   );

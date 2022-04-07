@@ -5,6 +5,7 @@ import { Button, Grid, Text, Image } from "../elements";
 
 // packages
 import { history } from "../redux/configureStore";
+
 // import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
@@ -48,20 +49,22 @@ const Header = (props) => {
             is_flex
             width="31.25rem"
             visibility={is_login && is_session ? "visible" : "hidden"}
+            margin="0px 10px 0px 0px"
           >
             <Image
               url={is_login && is_session ? user_info.user_profile : ""}
               shape="circle"
             />
-            <Text>{is_login && is_session ? user_info.user_name : ""}</Text>{" "}
-            {/* 유저 이름*/}
+            <Text>{is_login && is_session ? user_info.user_name : ""}</Text>
           </Grid>
           <Button
             bg="rgb(27, 156, 252)"
-            text={is_login && is_session ? "벨" : "회원가입"}
+            text={is_login && is_session ? "알림" : "회원가입"}
             margin="0px 10px 0px 0px"
             _onClick={() => {
-              history.push("/signup");
+              is_login && is_session
+                ? history.push("/noti")
+                : history.push("/signup");
             }}
           ></Button>
           <Button
@@ -82,7 +85,7 @@ Header.defaultProps = {};
 export default Header;
 
 const PostHeader = (props) => {
-  // console.log(props.user_info.user_profile);
+  console.log(props);
   return (
     <React.Fragment>
       <Grid is_flex padding="16px">
@@ -94,8 +97,23 @@ const PostHeader = (props) => {
             <Text bold>{props.user_info.user_name}</Text>
           </Grid>
         </Grid>
-        <Grid center="center">
-          <Text>{props.insert_dt}</Text>
+        <Grid center="center" is_flex>
+          <Grid>
+            <Text>{props.insert_dt}</Text>
+          </Grid>
+
+          {props.is_me && (
+            <Button
+              width="20%"
+              padding="4px"
+              bg="rgb(27, 156, 252)"
+              _onClick={() => {
+                history.push(`/write/${props.id}`);
+              }}
+            >
+              수정
+            </Button>
+          )}
         </Grid>
       </Grid>
     </React.Fragment>

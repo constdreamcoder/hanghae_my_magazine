@@ -10,10 +10,7 @@ import { Grid, Image, Text } from "../elements";
 //packages
 
 const Post = (props) => {
-  const user = {
-    user_info: { ...props.user_info },
-    insert_dt: props.insert_dt,
-  };
+  const user = { ...props };
   if (props.layout === "right") {
     return (
       <React.Fragment>

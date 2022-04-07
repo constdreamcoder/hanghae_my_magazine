@@ -4,7 +4,8 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 
 const Button = (props) => {
-  const { text, _onClick, children, margin, bg, width, is_float } = props;
+  const { text, _onClick, children, margin, bg, width, is_float, padding } =
+    props;
 
   if (is_float) {
     return (
@@ -14,7 +15,7 @@ const Button = (props) => {
     );
   }
 
-  const styles = { margin: margin, bg: bg, width: width };
+  const styles = { margin: margin, bg: bg, width: width, padding };
 
   return (
     <ElButton {...styles} onClick={_onClick}>
@@ -31,6 +32,7 @@ Button.defaultProps = {
   _onClick: () => {},
   margin: false,
   is_float: false,
+  padding: "",
 };
 
 const ElButton = styled.button`
@@ -39,6 +41,7 @@ const ElButton = styled.button`
   border-radius: 3px;
   color: white;
   cursor: pointer;
+  padding: ${(props) => props.padding};
   width: ${(props) => props.width};
   ${(props) => (props.bg ? `background-color: ${props.bg}` : "")};
   height: 40px;

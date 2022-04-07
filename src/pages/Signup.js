@@ -23,7 +23,7 @@ const Signup = (props) => {
     if (pwd !== pwd_check) {
       return;
     }
-
+    // 버그: 회원강비하면 자동으로 로그인 됨
     dispatch(userActions.signupFB(id, pwd, user_name));
   };
   return (
