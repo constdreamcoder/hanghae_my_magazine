@@ -2,6 +2,8 @@
 
 항해 5주차 주특기 심화 프로젝트
 
+<a href="http://mymagzine.s3-website.ap-northeast-2.amazonaws.com/">프로젝트 바로가기(클릭)</a>
+
 </br>
 
 ## 📚 완성한 기능
