@@ -160,6 +160,36 @@ const getPostFB = () => {
   return function (dispatch, getState, { history }) {
     // Firestore에서 데이터 가져오기
     const postDB = firestore.collection("post");
+    let query = postDB.orderBy("insert_dt", "desc").limit(2);
+
+    query.get().then((docs) => {
+      let post_list = [];
+      docs.forEach((doc) => {
+        let _post = doc.data();
+
+        // ['comment_cnt', 'contents', ..]
+        let post = Object.keys(_post).reduce(
+          (acc, cur) => {
+            // 현재 받아온 데이터 값이 문자열 "user_" 을 포함한다면(유전 개인 정보를 저장하는 변수명)
+            if (cur.indexOf("user_") !== -1) {
+              return {
+                ...acc,
+                user_info: { ...acc.user_info, [cur]: _post[cur] },
+              };
+            }
+            return { ...acc, [cur]: _post[cur] };
+            // 파이어 스토어에섯 받아온 데이터에는 id가 없기 때문에 초기값으로 id를 미리 넣어준다.
+            // 마찬가지로 파이어스토어에는 개인정보를 담아두는 user_info 객체가 없으므로 초기값으로 넣어준다.
+          },
+          { id: doc.id, user_info: {} }
+        );
+        post_list.push(post);
+      });
+      console.log(post_list);
+
+      dispatch(setPost(post_list));
+    });
+    return;
     postDB.get().then((docs) => {
       // 리덕스 데이터 저장구조와 파이어 스토어 데이터 저장구조가 다르므로
       // 파이어 스토어에 저장된 데이터 저장구조를 이에 맞추어 변환해준다.
