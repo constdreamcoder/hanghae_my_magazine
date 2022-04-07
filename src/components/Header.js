@@ -26,6 +26,7 @@ const Header = (props) => {
       : history.push("/login");
   };
 
+  // console.log(props.user_info.user_name);
   return (
     <React.Fragment>
       <Grid is_flex padding="16px">
@@ -39,7 +40,7 @@ const Header = (props) => {
             visibility={is_login && is_session ? "visible" : "hidden"}
           >
             <Image shape="circle" />
-            <Text>아추</Text> {/* 유저 이름*/}
+            <Text>라면</Text> {/* 유저 이름*/}
           </Grid>
           <Button
             bg="rgb(27, 156, 252)"
@@ -67,6 +68,7 @@ Header.defaultProps = {};
 export default Header;
 
 const PostHeader = (props) => {
+  console.log(props.user_info.user_profile);
   return (
     <React.Fragment>
       <Grid is_flex padding="16px">

@@ -36,7 +36,7 @@ const Image = (props) => {
 
 Image.defaultProps = {
   shape: "",
-  url: "https://d5nunyagcicgy.cloudfront.net/external_assets/hero_examples/hair_beach_v391182663/original.jpeg",
+  url: "https://mblogthumb-phinf.pstatic.net/20160412_67/tjans1656_1460436634883DEBhn_PNG/2016-04-12_13%3B45%3B31.PNG?type=w2",
   size: 40,
 };
 
