@@ -19,7 +19,6 @@ const initialState = {
   image_url: "",
   uploading: false,
   preview: null,
-  selectedFile: null,
 };
 
 // Middlewares

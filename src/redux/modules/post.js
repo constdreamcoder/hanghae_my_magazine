@@ -134,8 +134,7 @@ export default handleActions(
       }),
     [ADD_POST]: (state, action) =>
       produce(state, (draft) => {
-        console.log(action.payload.post);
-        // draft.list.unshift(action.payload.post);
+        draft.list.unshift(action.payload.post);
       }),
   },
   initialState
