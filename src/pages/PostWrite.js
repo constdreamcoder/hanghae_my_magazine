@@ -49,11 +49,10 @@ const PostWrite = (props) => {
           앗! 잠깐!
         </Text>
         <Text size="16px">로그인 후에만 글을 쓸 수 있어요!</Text>
-        {/* 버그: 버튼 동작 안함 -> 나중에 수정 예정  */}
         <Button
           bg="rgb(27,156,252)"
-          _onCick={() => {
-            history.replace("/");
+          _onClick={() => {
+            history.replace("/login");
           }}
         >
           로그인 하러 가기
@@ -61,6 +60,7 @@ const PostWrite = (props) => {
       </Grid>
     );
   }
+
   return (
     <React.Fragment>
       <h1>게시글 작성</h1>

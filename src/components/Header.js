@@ -32,7 +32,16 @@ const Header = (props) => {
     <React.Fragment>
       <Grid is_flex padding="16px">
         <Grid width="30%">
-          <Text>그림자</Text>
+          <Text color="rgb(27, 156, 252)" size="32px" bold margin="0px">
+            <span
+              onClick={() => {
+                history.push("/");
+              }}
+              style={{ cursor: "pointer" }}
+            >
+              🏠︎
+            </span>
+          </Text>
         </Grid>
         <Grid is_flex width="70%">
           <Grid
