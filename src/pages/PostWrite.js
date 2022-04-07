@@ -44,6 +44,8 @@ const PostWrite = (props) => {
 
     if (is_edit) {
       dispatch(imageActions.setPreview(_post.image_url));
+    } else {
+      dispatch(imageActions.setPreview(null));
     }
   }, []);
 
